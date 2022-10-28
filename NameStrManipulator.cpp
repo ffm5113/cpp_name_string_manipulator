@@ -52,35 +52,34 @@ string convertName(string input)
 {
 	string firstName = "", middleInitial = "", lastName = "";
 	string concatenation;
-	int spaceCount = 0;
+	int nameDividerCount = 0, spaceCount = 0;
+	int foundIndex = 0;
 	for (int i = 0; i < input.length(); i++)
 	{
-		if (input[i] == ' ' && spaceCount < 2)
+		if (input[i] == ' ')
 		{
 			spaceCount++;
+			if (nameDividerCount < 2)
+			{
+				nameDividerCount++;
+			}
 		}
-		if (spaceCount == 0 && input[i] != ' ')
+
+		if (nameDividerCount == 0 && input[i] != ' ')
 		{
 			firstName += input[i];
 		}
-		else if (spaceCount == 1 && input[i] != ' ')
+		else if (nameDividerCount == 1 && input[i] != ' ')
 		{
 			middleInitial += input[i];
 		}
-		else if (spaceCount == 2)
+		else if (nameDividerCount == 2)
 		{
 			lastName += input[i];
 		}
 	}
-	// Inclusive programming approach:
-	// Remove 1st space in last name, but allow
-	// subsequent spaces to be entered if last name
-	// contains spaces. 
-	lastName = lastName.substr(1, lastName.length());
 
 	// Ensure names are capitalized
-	firstName[0] = toupper(firstName[0]);
-	lastName[0] = toupper(lastName[0]);
 	// In case there are multiple letters in middle initial,
 	// capitalize all letters
 	for (int i = 0; i < middleInitial.length(); i++)
@@ -88,19 +87,22 @@ string convertName(string input)
 		middleInitial[i] = toupper(middleInitial[i]);
 	}
 
-	// If last name has multiple names/spaces,
-	// capitalize each name
-	for (int i = 1; i < lastName.length(); i++)
-	{
-		// If the previous char was a space,
-		// capitalize the current char
-		if (lastName[i - 1] == ' ')
-		{
-			lastName[i] = toupper(lastName[i]);
-		}
-	}
 	// Concatenate string and return it to main()
 	input = lastName + ", " + firstName + " " + middleInitial;
+	input[0] = toupper(input[0]);
+
+	while (spaceCount >= 0)
+	{
+		// Capitalize any chars that follow a space
+		// This will also capitalize last name, since
+		// a space was intentionally added before it.
+		foundIndex = input.find(' ', foundIndex) + 1;
+		input[foundIndex] = toupper(input[foundIndex]);
+		spaceCount--;
+	}
+
+	// Remove intentional space once concatenation is complete
+	input = input.substr(1, input.length());
 	return input;
 }
 
