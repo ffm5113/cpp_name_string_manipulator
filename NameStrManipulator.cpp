@@ -79,7 +79,6 @@ string convertName(string input)
 		}
 	}
 
-	// Ensure names are capitalized
 	// In case there are multiple letters in middle initial,
 	// capitalize all letters
 	for (int i = 0; i < middleInitial.length(); i++)
