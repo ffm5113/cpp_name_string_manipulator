@@ -17,14 +17,14 @@ int anotherName();
 
 int main()
 {
-	cout << TITLE << endl
-		<< AUTHOR_LINE << endl;
-
 	// Dynamic Variable Initialization
 	string nameInput;
 	char continueChar; // 'Y' or 'N'
 	bool keepLooping = true;
 
+	cout << TITLE << endl
+		<< AUTHOR_LINE << endl;
+	
 	do
 	{
 		nameInput = "";
